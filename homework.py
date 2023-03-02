@@ -50,7 +50,6 @@ def check_tokens() -> bool:
         bool: True if all tokens are present, False otherwise.
     """
     logging.info('Проверка наличия всех токенов.')
-
     return all([PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID])
 
 
@@ -94,7 +93,7 @@ def get_api_answer(current_timestamp: int) -> dict:
                        ).format(**params_request)
             raise WrongResponseCode(message)
         return response.json()
-    except Exception as error:
+    except requests.exceptions.RequestException as error:
         message = ('Произошла ошибка при запросе к API. '
                    'API не возвращает 200. '
                    'Запрос: {url}, {headers}, {params}.'
@@ -125,7 +124,8 @@ def check_response(response: dict) -> list:
         raise TypeError('Ответ API не является dict.')
 
     if 'homeworks' not in response or 'current_date' not in response:
-        raise EmptyResponseFromAPI('Нет ключа homeworks в ответе API.')
+        raise EmptyResponseFromAPI('Отсутствует один из ключей, homeworks или '
+                                   'current_date, в ответе API.')
 
     homeworks = response.get('homeworks')
 
