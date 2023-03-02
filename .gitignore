@@ -145,8 +145,8 @@ dmypy.json
 
 .mypy_cache
 
-# папки со статикой и медиа
-static/
-posts/static/
-media/
-
+# My files and directorys
+my_lib_install.sh
+prototype/
+prototype*.py
+yatube/media/
